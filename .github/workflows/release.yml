@@ -1,0 +1,51 @@
+name: Release React App
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Read version from package.json
+        id: version
+        run: |
+          VERSION=$(jq -r .version package.json)
+          echo "VERSION=v$VERSION" >> $GITHUB_ENV
+          echo "::set-output name=version::v$VERSION"
+
+      - name: Create tag if not exists
+        run: |
+          if git rev-parse "$VERSION" >/dev/null 2>&1; then
+            echo "Tag $VERSION already exists. Skipping tag creation."
+          else
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git tag "$VERSION"
+            git push origin "$VERSION"
+          fi
+
+      - name: Build the app
+        run: npm run build
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          name: Release ${{ steps.version.outputs.version }}
+          files: |
+            build/**/*
+
