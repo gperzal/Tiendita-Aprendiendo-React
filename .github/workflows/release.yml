@@ -47,7 +47,7 @@ jobs:
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: Tiendita ${{ env.VERSION }}
+          tag_name: ${{ env.VERSION }}
           name: Tiendita ${{ env.VERSION }}
           files: |
             build/**/*
