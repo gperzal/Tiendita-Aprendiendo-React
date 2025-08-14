@@ -5,8 +5,8 @@ export default function Hero() {
         <div className="row align-items-center g-4">
           <div className="col-lg-7">
             <h1 className="display-5 fw-bold">Bienvenido a <span className="text-primary">MiTienda</span></h1>
-            <p className="lead mb-4">Tu vitrina de productos con React, Vite y Bootstrap. Plantilla mínima, lista para crecer hacia un e‑commerce.</p>
-            <a href="#" className="btn btn-primary btn-lg">Explorar productos</a>
+            <p className="lead mb-4">Tu tienda favorita de productos con React, Vite y Bootstrap. Lista para crecer hacia un e‑commerce.</p>
+            <a href="https://n9.cl/hk1ju6" className="btn btn-primary btn-lg">Explorar productos</a>
           </div>
           <div className="col-lg-5">
             <div className="rounded-3 border bg-white p-4 text-center">
