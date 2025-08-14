@@ -7,7 +7,7 @@
 [![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
 [![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 
-**Versión:** 0.3.0  
+**Versión:** 0.4.0  
 **Fecha:** 13 de agosto de 2025
 
 🔗 [Ver todas las versiones y releases](https://github.com/gperzal/Tiendita-Aprendiendo-React/releases)
@@ -16,16 +16,18 @@
 
 ## 📦 Descripción
 
-Tiendita-Aprendiendo-React es una aplicación frontend desarrollada con React y Vite, enfocada en la gestión de productos y usuarios para una tienda virtual. La versión 0.3.0 introduce una arquitectura modular basada en dominios, mejorando la escalabilidad y mantenibilidad del proyecto.
+Tiendita-Aprendiendo-React es una aplicación frontend modular desarrollada con React y Vite, orientada a la gestión de productos y usuarios para una tienda virtual. La versión 0.4.0 profundiza en la arquitectura de productos y carrito, mejorando la experiencia de usuario y la robustez del código.
 
 ---
 
 ## 🚀 Características Principales
 
-- **Arquitectura modular feature-first:** Todo el código está organizado por dominio dentro de la carpeta `/src/modules`.
+- **Gestión avanzada de productos:** Listado, filtrado, paginación y categorías dinámicas.
+- **Carrito de compras global:** Añadir, eliminar, limpiar y calcular totales con lógica desacoplada y contexto global.
+- **CartProvider desacoplado:** Contexto de carrito separado para evitar errores de Fast Refresh y mejorar la escalabilidad.
+- **Arquitectura modular feature-first:** Código organizado por dominio en `/src/modules`.
 - **Separación clara de responsabilidades:** Cada dominio contiene sus propios componentes, páginas, hooks y utilidades.
-- **Facilidad para escalar y mantener:** La estructura permite agregar nuevas funcionalidades sin afectar otras áreas del proyecto.
-- **Experiencia de desarrollo mejorada:** El código es más legible y fácil de navegar.
+- **Experiencia de desarrollo mejorada:** Código legible, fácil de navegar y mantener.
 
 ---
 
@@ -37,6 +39,7 @@ Tiendita-Aprendiendo-React es una aplicación frontend desarrollada con React y 
 │   │   ├── 📂 auth/         → Autenticación (Login, Registro, hook de auth, datos dummy)
 │   │   ├── 📂 home/         → Página principal (Hero, HomeCards, Main, datos dummy)
 │   │   ├── 📂 products/     → Productos (ProductList, ProductsPage, datos dummy)
+│   │   ├── 📂 cart/         → Carrito (CartProvider, useCart, utilidades)
 │   │   └── 📂 layouts/      → Componentes globales (Navbar, Footer, AlertBox, Layout)
 │   ├── App.jsx              → Componente raíz
 │   ├── main.jsx             → Punto de entrada de React
@@ -65,46 +68,52 @@ Componentes principales del package:
 
 ## 🧩 Módulos y Funcionalidades
 
-### 1. **Auth (Autenticación)**
+### 1. **Products (Productos)**
 
-- **Componentes:**
-  - `LoginForm.jsx`: Formulario de inicio de sesión.
-  - `RegisterForm.jsx`: Formulario de registro de usuario.
-- **Hooks:**
-  - `useAuth.js`: Hook personalizado para gestionar el estado de autenticación.
-- **Páginas:**
-  - `LoginPage.jsx`: Página de login.
-  - `RegisterPage.jsx`: Página de registro.
-- **Utils:**
-  - `dummyData.js`: Datos simulados para pruebas y desarrollo.
+- **Listado y filtrado:** El componente `ProductList.jsx` permite buscar productos por nombre, filtrar por categoría y paginar resultados.
+- **Datos simulados:** Los productos, categorías y marcas se gestionan desde `dummyData.js`, facilitando pruebas y desarrollo.
+- **Categorías dinámicas:** El array `categories` exportado permite mostrar y filtrar productos por tipo, con íconos y nombres amigables.
+- **Importación correcta:** Se recomienda importar así:
+  ```js
+  import { products, categories } from "../utils/dummyData";
+  ```
+- **Páginas:** `ProductsPage.jsx` muestra el listado y permite interacción con el carrito.
 
-### 2. **Home (Inicio)**
+### 2. **Cart (Carrito de compras)**
 
-- **Componentes:**
-  - `Hero.jsx`: Sección principal de bienvenida.
-  - `HomeCards.jsx`: Tarjetas informativas o promocionales.
-  - `Main.jsx`: Contenido principal de la página de inicio.
-- **Páginas:**
-  - `HomePage.jsx`: Página principal de la tienda.
-- **Utils:**
-  - `dummyData.js`: Datos simulados para la página de inicio.
-
-### 3. **Products (Productos)**
-
-- **Componentes:**
-  - `ProductList.jsx`: Listado de productos disponibles.
-- **Páginas:**
-  - `ProductsPage.jsx`: Página dedicada a la visualización de productos.
-- **Utils:**
-  - `dummyData.js`: Datos simulados de productos.
-
-### 4. **Layouts (Diseño y Navegación)**
-
-- **Componentes globales:**
-  - `AlertBox.jsx`: Caja de alertas/notificaciones.
-  - `Footer.jsx`: Pie de página.
-  - `Layout.jsx`: Componente de layout general.
-  - `Navbar.jsx` y `Navbar1.jsx`: Barras de navegación.
+- **CartProvider:**
+  - Es un componente que provee el contexto global del carrito a toda la app.
+  - Se importa y envuelve la app en `App.jsx`:
+    ```jsx
+    import { CartProvider } from "./modules/cart/components/CartProvider.jsx";
+    // ...
+    <CartProvider>{/* Resto de la app */}</CartProvider>;
+    ```
+  - Permite que cualquier componente acceda y modifique el carrito usando el hook `useCart`.
+- **useCart:**
+  - Hook personalizado para acceder al contexto del carrito.
+  - Ejemplo de uso:
+    ```js
+    import { useCart } from "../hooks/useCart";
+    const {
+      items,
+      addToCart,
+      removeFromCart,
+      clearCart,
+      subtotal,
+      shipping,
+      total,
+    } = useCart();
+    ```
+- **Utilidades separadas:**
+  - Las funciones para calcular subtotal, envío y total están en `cartUtils.js`.
+  - Esto permite mantener la lógica separada y reutilizable.
+- **¿Por qué separar CartProvider y useCart?**
+  - React Fast Refresh (Vite) solo funciona correctamente si los archivos exportan solo componentes o solo hooks.
+  - Si mezclamos exports, pueden aparecer errores y el hot reload no funciona bien.
+  - Separar el provider y el hook evita estos problemas y mejora la mantenibilidad.
+- **Gestión global:**
+  - El carrito es accesible desde cualquier página, permitiendo agregar, eliminar y limpiar productos, además de mostrar totales en tiempo real.
 
 ---
 
@@ -134,10 +143,11 @@ Componentes principales del package:
 
 ---
 
-## 📝 Notas de la Versión 0.3.0
+## 📝 Notas de la Versión 0.4.0
 
-- Refactorización completa a arquitectura modular.
-- Separación por dominios: auth, home, products, layouts.
-- Mejora significativa en la organización y escalabilidad del código.
+- Refactorización profunda en productos y carrito.
+- CartProvider y useCart separados para evitar errores de Fast Refresh y mejorar la arquitectura.
+- Lógica de cálculo de totales desacoplada en utilidades.
+- Mejor experiencia de usuario en la gestión de productos y compras.
 
 ---
