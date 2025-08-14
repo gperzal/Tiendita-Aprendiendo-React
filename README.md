@@ -1,142 +1,143 @@
-# Proyecto "my-app" — Guía Básica de React + Vite
+# 🛒 Tiendita-Aprendiendo-React
 
-Este proyecto es una base para aprender y practicar React usando Vite. Aquí se explica la estructura, cómo funcionan los imports/exports, los componentes y el flujo de montaje de la app.
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)
+![Bootstrap](https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+[![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://reactjs.org/)
+[![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 
----
+**Versión:** 0.3.0  
+**Fecha:** 13 de agosto de 2025
 
-## Estructura principal
-
-- `src/` — Código fuente de la app
-  - `App.jsx` — Componente principal
-  - `main.jsx` — Punto de entrada de React
-  - `components/` — Carpeta para componentes reutilizables (Navbar, Hero, Main, Footer)
-  - `assets/` — Imágenes y recursos
-  - `index.css` — Estilos globales
-- `index.html` — HTML base con `<div id="root"></div>`
+🔗 [Ver todas las versiones y releases](https://github.com/gperzal/Tiendita-Aprendiendo-React/releases)
 
 ---
 
-## ¿Cómo funciona React aquí?
+## 📦 Descripción
 
-### 1. Importar módulos y componentes
+Tiendita-Aprendiendo-React es una aplicación frontend desarrollada con React y Vite, enfocada en la gestión de productos y usuarios para una tienda virtual. La versión 0.3.0 introduce una arquitectura modular basada en dominios, mejorando la escalabilidad y mantenibilidad del proyecto.
 
-En React, usamos `import` para traer código de otros archivos o librerías:
+---
 
-```js
-import Navbar from "./components/Navbar.jsx"; // Importa el componente Navbar
-import "./index.css"; // Importa los estilos globales
+## 🚀 Características Principales
+
+- **Arquitectura modular feature-first:** Todo el código está organizado por dominio dentro de la carpeta `/src/modules`.
+- **Separación clara de responsabilidades:** Cada dominio contiene sus propios componentes, páginas, hooks y utilidades.
+- **Facilidad para escalar y mantener:** La estructura permite agregar nuevas funcionalidades sin afectar otras áreas del proyecto.
+- **Experiencia de desarrollo mejorada:** El código es más legible y fácil de navegar.
+
+---
+
+## 🗂️ Estructura del Proyecto
+
+```
+├── 📂 src/                  → Código fuente principal
+│   ├── 📂 modules/          → Módulos por dominio (feature-first)
+│   │   ├── 📂 auth/         → Autenticación (Login, Registro, hook de auth, datos dummy)
+│   │   ├── 📂 home/         → Página principal (Hero, HomeCards, Main, datos dummy)
+│   │   ├── 📂 products/     → Productos (ProductList, ProductsPage, datos dummy)
+│   │   └── 📂 layouts/      → Componentes globales (Navbar, Footer, AlertBox, Layout)
+│   ├── App.jsx              → Componente raíz
+│   ├── main.jsx             → Punto de entrada de React
+│   └── index.css            → Estilos globales
+├── 📂 public/               → Archivos públicos y estáticos
+│   └── vite.svg             → Logo Vite
+├── index.html               → HTML base
+├── package.json             → Configuración y dependencias
+├── vite.config.js           → Configuración de Vite
+├── eslint.config.js         → Configuración de ESLint
+└── README.md                → Documentación
 ```
 
-### 2. Crear componentes
-
-Un **componente** es una función que retorna JSX (HTML con superpoderes):
-
-```jsx
-// src/components/Navbar.jsx
-export default function Navbar() {
-  return <nav>{/* ...contenido... */}</nav>;
-}
-```
-
-> `export default` permite que este componente se pueda importar en otros archivos.
-
-### 3. Usar componentes dentro de otros
-
-```jsx
-// src/App.jsx
-import Navbar from "./components/Navbar.jsx";
-
-function App() {
-  return (
-    <div>
-      <Navbar />
-      {/* Otros componentes */}
-    </div>
-  );
-}
-
-export default App;
-```
-
-### 4. Montar la app en el DOM
-
-El archivo `main.jsx` es el punto de entrada. Aquí React "monta" el componente principal (`App`) en el HTML:
-
-```jsx
-import { StrictMode } from "react";
-import { createRoot } from "react-dom/client";
-import App from "./App.jsx";
-
-createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-);
-```
-
-- `createRoot(document.getElementById('root'))` busca el `<div id="root">` en `index.html`.
-- `.render(<StrictMode><App /></StrictMode>)` dibuja la app dentro de ese div.
-- `<StrictMode>` es una herramienta de React para detectar problemas comunes en desarrollo (puedes quitarlo si quieres).
+<!--
+Componentes principales del package:
+- React
+- React DOM
+- React Router DOM
+- Bootstrap
+- Vite
+- ESLint
+- Prettier
+-->
 
 ---
 
-## Explicando import/export
+## 🧩 Módulos y Funcionalidades
 
-- `import ... from ...` sirve para traer funciones, componentes, imágenes, etc. de otros archivos.
-- `export default ...` permite que un archivo exponga una función/componente como principal.
-- También puedes usar `export` (sin default) para exportar varias cosas:
-  ```js
-  // utils.js
-  export function suma(a, b) {
-    return a + b;
-  }
-  export const PI = 3.14;
-  // En otro archivo:
-  import { suma, PI } from "./utils.js";
-  ```
+### 1. **Auth (Autenticación)**
+
+- **Componentes:**
+  - `LoginForm.jsx`: Formulario de inicio de sesión.
+  - `RegisterForm.jsx`: Formulario de registro de usuario.
+- **Hooks:**
+  - `useAuth.js`: Hook personalizado para gestionar el estado de autenticación.
+- **Páginas:**
+  - `LoginPage.jsx`: Página de login.
+  - `RegisterPage.jsx`: Página de registro.
+- **Utils:**
+  - `dummyData.js`: Datos simulados para pruebas y desarrollo.
+
+### 2. **Home (Inicio)**
+
+- **Componentes:**
+  - `Hero.jsx`: Sección principal de bienvenida.
+  - `HomeCards.jsx`: Tarjetas informativas o promocionales.
+  - `Main.jsx`: Contenido principal de la página de inicio.
+- **Páginas:**
+  - `HomePage.jsx`: Página principal de la tienda.
+- **Utils:**
+  - `dummyData.js`: Datos simulados para la página de inicio.
+
+### 3. **Products (Productos)**
+
+- **Componentes:**
+  - `ProductList.jsx`: Listado de productos disponibles.
+- **Páginas:**
+  - `ProductsPage.jsx`: Página dedicada a la visualización de productos.
+- **Utils:**
+  - `dummyData.js`: Datos simulados de productos.
+
+### 4. **Layouts (Diseño y Navegación)**
+
+- **Componentes globales:**
+  - `AlertBox.jsx`: Caja de alertas/notificaciones.
+  - `Footer.jsx`: Pie de página.
+  - `Layout.jsx`: Componente de layout general.
+  - `Navbar.jsx` y `Navbar1.jsx`: Barras de navegación.
 
 ---
 
-## ¿Qué hace cada archivo clave?
+## 🛠️ Tecnologías Utilizadas
 
-- **App.jsx**: Junta y organiza los componentes principales de la app.
-- **main.jsx**: Monta la app en el DOM.
-- **components/**: Cada archivo es un componente reutilizable (Navbar, Hero, Main, Footer).
-- **index.css**: Estilos globales (puedes agregar los tuyos).
-- **index.html**: HTML base, solo tiene el `<div id="root"></div>` donde React "pinta" la app.
+- **React**: Librería principal para la construcción de interfaces.
+- **Vite**: Herramienta de desarrollo y bundler rápido.
+- **JavaScript (ES6+)**
+- **CSS**: Estilos globales y por componente.
+- **Bootstrap**: Framework de estilos para componentes responsivos.
+- **Node.js**: Entorno de ejecución para desarrollo y dependencias.
+- **ESLint**: Linter para mantener la calidad del código.
 
 ---
 
-## ¿Cómo iniciar el proyecto?
+## 📚 Cómo Ejecutar el Proyecto
 
-1. Instala dependencias:
-   ```bash
+1. Instala las dependencias:
+   ```cmd
    npm install
    ```
 2. Inicia el servidor de desarrollo:
-   ```bash
+   ```cmd
    npm run dev
    ```
-3. Abre la URL que te muestra la terminal (ej: http://localhost:5173)
+3. Accede a la aplicación en [http://localhost:5173](http://localhost:5173) (por defecto).
 
 ---
 
-## Glosario básico
+## 📝 Notas de la Versión 0.3.0
 
-- **Componente**: Función que retorna JSX (estructura visual de la app)
-- **JSX**: Sintaxis similar a HTML, pero dentro de JavaScript
-- **Import/Export**: Para reutilizar código entre archivos
-- **createRoot/render**: Monta la app en el navegador
-- **props**: Parámetros que reciben los componentes
-- **Estado (state)**: Datos que pueden cambiar en la app (ver hooks como useState)
+- Refactorización completa a arquitectura modular.
+- Separación por dominios: auth, home, products, layouts.
+- Mejora significativa en la organización y escalabilidad del código.
 
 ---
-
-## Recursos útiles
-
-- [Documentación oficial de React](https://es.react.dev/learn)
-- [Documentación de Vite](https://vitejs.dev/)
-
----
-
-¡Listo! Ahora puedes explorar y modificar los componentes en `src/components/` para practicar React.

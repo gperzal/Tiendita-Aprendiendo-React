@@ -1,20 +1,31 @@
-import Navbar from './components/Navbar.jsx'
-import Hero from './components/Hero.jsx'
-import Main from './components/Main.jsx'
-import Footer from './components/Footer.jsx'
+
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import Layout from './modules/layouts/Layout';
+
+import HomePage from './modules/home/pages/HomePage';
+import LoginPage from './modules/auth/pages/LoginPage';
+import RegisterPage from './modules/auth/pages/RegisterPage';
+import ProductsPage from './modules/products/pages/ProductsPage';
+import CartPage from './modules/cart/pages/CartPage';
+import { CartProvider } from './modules/cart/components/CartProvider.jsx';
 
 function App() {
-
   return (
-    <div className="d-flex flex-column min-vh-100">
-      <Navbar />
-      <Hero />
-      <main className="flex-grow-1">
-        <Main />
-      </main>
-      <Footer />
-    </div>
-  )
+     <CartProvider>
+      <BrowserRouter>
+            <Routes>
+              <Route element={<Layout />}>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/register" element={<RegisterPage />} />
+              <Route path="/products" element={<ProductsPage />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+    </CartProvider>
+  );
 }
 
-export default App
+export default App;
