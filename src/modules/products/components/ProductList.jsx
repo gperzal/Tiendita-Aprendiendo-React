@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { products, categories } from '../utils/dummyData';
-import { useCart } from '../../cart/hooks/useCart';
+import { useCart } from '@context/CartProvider';
 
 export default function ProductList() {
   const { addToCart } = useCart();

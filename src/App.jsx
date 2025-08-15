@@ -7,7 +7,7 @@ import LoginPage from './modules/auth/pages/LoginPage';
 import RegisterPage from './modules/auth/pages/RegisterPage';
 import ProductsPage from './modules/products/pages/ProductsPage';
 import CartPage from './modules/cart/pages/CartPage';
-import { CartProvider } from './modules/cart/components/CartProvider.jsx';
+import { CartProvider } from '@context/CartProvider.jsx';
 
 function App() {
   return (

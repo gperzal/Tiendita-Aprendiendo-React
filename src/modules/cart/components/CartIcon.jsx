@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
-import { useCart } from '../hooks/useCart';
+import { useCart } from '@context/CartProvider';
 
 export default function CartIcon() {
   const { items, subtotal } = useCart();
