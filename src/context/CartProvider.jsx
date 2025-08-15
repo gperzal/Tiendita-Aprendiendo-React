@@ -1,7 +1,13 @@
-import { createContext, useState } from 'react';
+import { createContext, useState, useContext } from 'react';
 import { calcularSubtotal, calcularShipping, calcularTotal } from '../utils/cartUtils';
 
 const CartContext = createContext();
+
+export function useCart() {
+  const context = useContext(CartContext);
+  if (!context) throw new Error("useCart must be used within a CartProvider");
+  return context;
+}
 
 export function CartProvider({ children }) {
   const [items, setItems] = useState([]);
