@@ -8,6 +8,7 @@ import RegisterPage from './modules/auth/pages/RegisterPage';
 import ProductsPage from './modules/products/pages/ProductsPage';
 import CartPage from './modules/cart/pages/CartPage';
 import { CartProvider } from '@context/CartProvider.jsx';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             </Route>
           </Routes>
         </BrowserRouter>
+        <Toaster position="top-right" />
     </CartProvider>
   );
 }
