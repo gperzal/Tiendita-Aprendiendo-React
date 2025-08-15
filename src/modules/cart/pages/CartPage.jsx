@@ -1,8 +1,9 @@
-import { useCart } from '../hooks/useCart';
+import { useCart } from '@context/CartProvider';
 import { useState } from 'react';
+import { FaPlus, FaMinus, FaRegHeart } from 'react-icons/fa';
 
 export default function CartPage() {
-  const { items, removeFromCart, subtotal, shipping, total } = useCart();
+  const { items, removeFromCart, subtotal, shipping, total, addToCart, decreaseCartItem } = useCart();
   const [promoCode, setPromoCode] = useState('');
   const [isPromoApplied, setIsPromoApplied] = useState(false);
 
@@ -115,12 +116,12 @@ export default function CartPage() {
                         <div className="d-flex align-items-center">
                           <label className="form-label me-2 mb-0 fw-medium">Cantidad:</label>
                           <div className="btn-group" role="group">
-                            <button className="btn btn-outline-secondary btn-sm">
-                              <i className="fas fa-minus"></i>
+                            <button className="btn btn-outline-secondary btn-sm" onClick={() => decreaseCartItem(item)}>
+                              <FaMinus/>
                             </button>
-                            <button className="btn btn-outline-secondary btn-sm px-3">1</button>
-                            <button className="btn btn-outline-secondary btn-sm">
-                              <i className="fas fa-plus"></i>
+                            <button className="btn btn-outline-secondary btn-sm px-3">{item.cantidad}</button>
+                            <button className="btn btn-outline-secondary btn-sm" onClick={() => addToCart(item)}>
+                              <FaPlus/>
                             </button>
                           </div>
                         </div>
@@ -139,7 +140,7 @@ export default function CartPage() {
 
                         <div className="d-flex gap-2">
                           <button className="btn btn-outline-secondary btn-sm rounded-pill">
-                            <i className="far fa-heart"></i>
+                            <FaRegHeart />
                           </button>
                           <button 
                             className="btn btn-outline-danger btn-sm rounded-pill" 
