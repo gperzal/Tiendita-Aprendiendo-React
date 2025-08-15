@@ -1,0 +1,76 @@
+.hero-section {
+  margin-bottom: 4rem;
+}
+
+.hero-carousel {
+  height: 500px;
+  position: relative;
+}
+
+.hero-slide {
+  height: 500px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.hero-content {
+  color: white;
+  max-width: 600px;
+}
+
+.hero-content h1 {
+  font-size: 3.5rem;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+}
+
+.hero-content p {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+  line-height: 1.6;
+}
+
+.carousel-indicators button {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid white;
+  background-color: transparent;
+}
+
+.carousel-indicators button.active {
+  background-color: white;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 30px;
+  height: 30px;
+  background-size: 100%;
+}
+
+@media (max-width: 768px) {
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+  
+  .hero-content p {
+    font-size: 1.1rem;
+  }
+  
+  .hero-carousel {
+    height: 400px;
+  }
+  
+  .hero-slide {
+    height: 400px;
+  }
+}
