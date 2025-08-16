@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 import { MOCK } from '../utils/dummyData.js';
+import { useCart } from '@context/CartProvider.jsx';
+import { ProductCard } from '../../../shared/components/ProductCard.jsx';
+import styles from './Main.module.css';
+
 
 export default function Main() {
   const [products, setProducts] = useState(MOCK);
@@ -8,6 +12,7 @@ export default function Main() {
   const [filterCategory, setFilterCategory] = useState('all');
   const [sortBy, setSortBy] = useState('name');
 
+  const { addToCart } = useCart();
   // Simulate loading
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1000);
@@ -43,11 +48,6 @@ export default function Main() {
     setFavorites(newFavorites);
   };
 
-  const addToCart = (product) => {
-    // Simulate add to cart
-    console.log('Added to cart:', product);
-    // Here you would typically dispatch to cart context/redux
-  };
 
   if (isLoading) {
     return (
@@ -70,7 +70,7 @@ export default function Main() {
         <div className="position-absolute top-0 end-0 opacity-25">
           <i className="fas fa-shopping-bag" style={{ fontSize: '200px', transform: 'rotate(15deg) translate(50px, -50px)' }}></i>
         </div>
-        
+
         <div className="container position-relative">
           <div className="row align-items-center">
             <div className="col-lg-8">
@@ -97,7 +97,7 @@ export default function Main() {
               </div>
             </div>
             <div className="col-lg-4 text-center">
-              <div className="bg-white bg-opacity-10 rounded-3 p-4 backdrop-blur">
+              <div className={`${styles.backdropBlur} bg-white bg-opacity-10 rounded-3 p-4`}>
                 <h3 className="h4 mb-3">¡Ofertas especiales!</h3>
                 <p className="mb-3">Hasta 50% de descuento en productos seleccionados</p>
                 <button className="btn btn-warning btn-lg fw-bold">
@@ -120,7 +120,7 @@ export default function Main() {
                   {/* Category Filter */}
                   <div className="col-md-4">
                     <label className="form-label fw-medium text-muted small">CATEGORÍA</label>
-                    <select 
+                    <select
                       className="form-select form-select-lg border-0 bg-light rounded-3"
                       value={filterCategory}
                       onChange={(e) => setFilterCategory(e.target.value)}
@@ -136,7 +136,7 @@ export default function Main() {
                   {/* Sort Filter */}
                   <div className="col-md-4">
                     <label className="form-label fw-medium text-muted small">ORDENAR POR</label>
-                    <select 
+                    <select
                       className="form-select form-select-lg border-0 bg-light rounded-3"
                       value={sortBy}
                       onChange={(e) => setSortBy(e.target.value)}
@@ -186,99 +186,12 @@ export default function Main() {
           <div className="row g-4">
             {filteredAndSortedProducts.map(product => (
               <div className="col-12 col-sm-6 col-lg-4 col-xl-3" key={product.id}>
-                <div className="card h-100 shadow-sm border-0 product-card position-relative overflow-hidden">
-                  
-                  {/* Product Badge */}
-                  <div className="position-absolute top-0 start-0 p-2" style={{ zIndex: 2 }}>
-                    <span className="badge bg-success rounded-pill">
-                      <i className="fas fa-star me-1"></i>
-                      Destacado
-                    </span>
-                  </div>
-
-                  {/* Favorite Button */}
-                  <button 
-                    className="btn btn-light position-absolute top-0 end-0 m-2 rounded-circle p-2 border-0 shadow-sm"
-                    style={{ zIndex: 2, width: '40px', height: '40px' }}
-                    onClick={() => toggleFavorite(product.id)}
-                  >
-                    <i className={`fas fa-heart ${favorites.has(product.id) ? 'text-danger' : 'text-muted'}`}></i>
-                  </button>
-
-                  {/* Product Image */}
-                  <div className="position-relative overflow-hidden">
-                    <img 
-                      src={product.img} 
-                      className="card-img-top" 
-                      alt={product.name}
-                      style={{ 
-                        height: '250px', 
-                        objectFit: 'cover',
-                        transition: 'transform 0.3s ease'
-                      }}
-                      onMouseEnter={(e) => e.target.style.transform = 'scale(1.05)'}
-                      onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
-                    />
-                    
-                    {/* Quick Actions Overlay */}
-                    <div className="position-absolute bottom-0 start-0 end-0 p-3 bg-gradient bg-dark bg-opacity-75 opacity-0 product-overlay">
-                      <div className="d-flex gap-2 justify-content-center">
-                        <button className="btn btn-sm btn-light rounded-pill flex-fill">
-                          <i className="fas fa-eye me-1"></i>
-                          Ver
-                        </button>
-                        <button className="btn btn-sm btn-outline-light rounded-pill">
-                          <i className="fas fa-share-alt"></i>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Product Info */}
-                  <div className="card-body d-flex flex-column p-4">
-                    <div className="mb-2">
-                      <span className="badge bg-light text-dark rounded-pill small">
-                        {product.category || 'General'}
-                      </span>
-                    </div>
-                    
-                    <h5 className="card-title mb-2 fw-bold text-dark">{product.name}</h5>
-                    
-                    {/* Rating */}
-                    <div className="d-flex align-items-center mb-2">
-                      <div className="text-warning me-2">
-                        {[...Array(5)].map((_, i) => (
-                          <i key={i} className={`fas fa-star ${i < 4 ? '' : 'text-muted'}`} style={{ fontSize: '12px' }}></i>
-                        ))}
-                      </div>
-                      <small className="text-muted">(4.0) 127 reseñas</small>
-                    </div>
-
-                    {/* Price */}
-                    <div className="d-flex align-items-center justify-content-between mb-3">
-                      <div>
-                        <span className="h5 text-primary fw-bold mb-0">
-                          ${product.price.toLocaleString('es-CL')}
-                        </span>
-                        <small className="text-decoration-line-through text-muted ms-2">
-                          ${Math.round(product.price * 1.2).toLocaleString('es-CL')}
-                        </small>
-                      </div>
-                      <span className="badge bg-danger rounded-pill">-20%</span>
-                    </div>
-
-                    {/* Add to Cart Button */}
-                    <div className="mt-auto">
-                      <button 
-                        className="btn btn-primary w-100 rounded-3 fw-medium py-2"
-                        onClick={() => addToCart(product)}
-                      >
-                        <i className="fas fa-shopping-cart me-2"></i>
-                        Agregar al carrito
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <ProductCard
+                  product={product}
+                  isFavorite={favorites.has(product.id)}
+                  onToggleFavorite={toggleFavorite}
+                  onAddToCart={addToCart}
+                />
               </div>
             ))}
           </div>
@@ -296,8 +209,8 @@ export default function Main() {
                   </p>
                   <div className="row g-2 justify-content-center">
                     <div className="col-md-6">
-                      <input 
-                        type="email" 
+                      <input
+                        type="email"
                         className="form-control form-control-lg rounded-3 border-0"
                         placeholder="tu@email.com"
                       />
@@ -319,17 +232,6 @@ export default function Main() {
           </div>
         </section>
       </div>
-
-      <style jsx>{`
-        .product-card:hover .product-overlay {
-          opacity: 1 !important;
-          transition: opacity 0.3s ease;
-        }
-        
-        .backdrop-blur {
-          backdrop-filter: blur(10px);
-        }
-      `}</style>
     </div>
   );
 }
