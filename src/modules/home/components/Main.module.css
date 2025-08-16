@@ -1,0 +1,10 @@
+/* ProductCard.module.css */
+
+.productCard:hover .productOverlay {
+  opacity: 1 !important;
+  transition: opacity 0.3s ease;
+}
+
+.backdropBlur {
+  backdrop-filter: blur(10px);
+}

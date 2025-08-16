@@ -1,10 +1,11 @@
 import { NavLink } from 'react-router-dom';
 import { FaShoppingCart } from 'react-icons/fa';
-import { useCart } from '../hooks/useCart';
+import { useCart } from '@context/CartProvider';
+import styles from './CartIcon.module.css';
 
 export default function CartIcon() {
   const { items, subtotal } = useCart();
-  const count = items.length;
+  const cantidad = items.reduce((acumulador, item) => item.cantidad + acumulador, 0);
 
   return (
     <NavLink 
@@ -12,7 +13,7 @@ export default function CartIcon() {
       className={({ isActive }) => 
         `btn btn-outline-light rounded-pill px-3 py-2 position-relative d-flex align-items-center gap-2 text-decoration-none border-0 ${
           isActive ? 'bg-primary text-white' : 'text-dark'
-        }`
+        } ${cantidad > 0 ? styles.cartBounce : ''}`
       }
     >
       {/* Cart Icon */}
@@ -20,12 +21,12 @@ export default function CartIcon() {
         <FaShoppingCart size={18} />
         
         {/* Item count badge */}
-        {count > 0 && (
+        {cantidad > 0 && (
           <span 
             className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-2 border-white"
             style={{ fontSize: '10px', minWidth: '20px', height: '20px' }}
           >
-            {count > 99 ? '99+' : count}
+            {cantidad > 99 ? '99+' : cantidad}
           </span>
         )}
       </div>
@@ -37,25 +38,10 @@ export default function CartIcon() {
             Mi Carrito
           </small>
           <small className="text-muted" style={{ fontSize: '11px' }}>
-            {count === 0 ? 'Vacío' : `$${subtotal.toLocaleString('es-CL')}`}
+            {cantidad === 0 ? 'Vacío' : `$${subtotal.toLocaleString('es-CL')}`}
           </small>
         </div>
       </div>
-
-      {/* Animated cart icon when items > 0 */}
-      {count > 0 && (
-        <style jsx>{`
-          @keyframes cartBounce {
-            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
-            40% { transform: translateY(-3px); }
-            60% { transform: translateY(-2px); }
-          }
-          
-          .btn:hover .position-relative {
-            animation: cartBounce 0.8s;
-          }
-        `}</style>
-      )}
     </NavLink>
   );
 }

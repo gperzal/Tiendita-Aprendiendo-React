@@ -7,9 +7,9 @@ export const homeCards = [
 ];
 
 export const MOCK = [
-    { id: 1, name: 'Camiseta básica', price: 9900, img: 'https://picsum.photos/seed/tee/300/200' },
-    { id: 2, name: 'Gorra urbana', price: 12990, img: 'https://picsum.photos/seed/cap/300/200' },
-    { id: 3, name: 'Mochila clásica', price: 24990, img: 'https://picsum.photos/seed/bag/300/200' },
-    { id: 4, name: 'Pantaloneta', price: 12990, img: 'https://picsum.photos/seed/pants/300/200' },
+    { id: 1, name: 'Camiseta básica', price: 9900, image: 'https://picsum.photos/seed/tee/300/200' },
+    { id: 2, name: 'Gorra urbana', price: 12990, image: 'https://picsum.photos/seed/cap/300/200' },
+    { id: 3, name: 'Mochila clásica', price: 24990, image: 'https://picsum.photos/seed/bag/300/200' },
+    { id: 4, name: 'Pantaloneta', price: 12990, image: 'https://picsum.photos/seed/pants/300/200' },
 
 ]
